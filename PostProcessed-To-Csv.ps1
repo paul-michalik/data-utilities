@@ -3,10 +3,10 @@
 [CmdletBinding()]
 Param(
   [Parameter(Mandatory=$True,Position=1)]
-   [System.IO.Path]$inputFile,
+   [string]$inputFile,
 	
-   [Parameter(Mandatory=$True)]
-   [System.IO.Path]$outputFile
+   [Parameter(Mandatory=$True,Position=2)]
+   [string]$outputFile
 )
 
 $inputFile
