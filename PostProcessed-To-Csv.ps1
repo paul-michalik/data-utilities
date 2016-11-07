@@ -9,6 +9,10 @@ Param(
    [string]$outputFile
 )
 
-$inputFile
+if(Test-Path $inputFile) {
+    Get-Content $inputFile `
+        | ForEach-Object { $_ -replace '(\d{2}) (\d{2}) (\d{2}\.\d{5})','$1-$2-$3' }
 
-$outputFile
+    $inputFile
+    $outputFile
+}

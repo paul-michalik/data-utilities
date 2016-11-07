@@ -1,0 +1,27 @@
+Project:     HARMAN
+Program:     Inertial Explorer Version 8.60.6717
+Profile:     HARMAN
+Source:      GNSS/INS Epochs(Smoothed TC Combined)
+ProcessInfo: HARMAN by Unknown on 10/28/2016 at 00:17:42
+
+Datum:       WGS84, (processing datum)
+Master 1:    Name MUEJ1, Status ENABLED
+             Antenna height 0.026 m, to ARP [LEIAR25.R3(LEIT)]
+             Position 48 08 56.42945, 11 34 05.42014, 593.818 m (WGS84, Ellipsoidal hgt)
+Remote:      Antenna height 0.000 m, to L1PC [Generic(NONE)]
+IMU to GNSS Antenna Lever Arms:
+             x=0.100, y=0.100, z=0.600 m (x-right, y-fwd, z-up)
+Body to Sensor Rotations:
+             xRot=0.000, yRot=0.000, zRot=0.000 degrees (Rotate IMU into Vehicle Frame)
+SD Scaling Settings:
+  Position: 1.0000
+  Velocity: 1.0000
+  Attitude: 1.0000
+
+      Week   GPSTime         Latitude      SDNorth        Longitude       SDEast        H-Ell     SDHeight VelBdyX SD-VX-ECE VelBdyY SD-VY-ECE VelBdyZ SD-VZ-ECE AccBdyX AccBdyY AccBdyZ           Roll         RollSD          Pitch        PitchSD        Heading         HdngSD
+   (weeks)     (sec)       (+/-D M S)          (m)       (+/-D M S)          (m)          (m)          (m)   (m/s)     (m/s)   (m/s)     (m/s)   (m/s)     (m/s) (m/s^2) (m/s^2) (m/s^2)          (deg)          (deg)          (deg)          (deg)          (deg)          (deg)
+1920.00000 391533.00   48 15 01.45517        0.016   11 38 06.20147        0.015      528.964        0.022   0.002     0.005   0.001     0.005  -0.012     0.005  -0.026   0.051  -0.008  -3.2606150000   0.0111483270   1.6286110000   0.0111834425 -116.736625000   0.0609550998
+1920.00000 391533.01   48 15 01.45517        0.016   11 38 06.20147        0.015      528.964        0.022   0.002     0.005   0.002     0.005  -0.012     0.005   0.011  -0.014   0.051  -3.2612690000   0.0111449938   1.6285610000   0.0111801708 -116.737217000   0.0609527826
+1920.00000 391533.02   48 15 01.45517        0.016   11 38 06.20147        0.015      528.964        0.022   0.002     0.005   0.001     0.005  -0.011     0.005   0.025  -0.032   0.016  -3.2615970000   0.0111416588   1.6276820000   0.0111768972 -116.737348000   0.0609504692
+1920.00000 391533.03   48 15 01.45517        0.016   11 38 06.20147        0.015      528.964        0.022   0.002     0.005   0.001     0.005  -0.011     0.005  -0.000   0.020  -0.007  -3.2609720000   0.0111383228   1.6276600000   0.0111736236 -116.736851000   0.0609481521
+1920.00000 391533.04   48 15 01.45517        0.016   11 38 06.20147        0.015      528.964        0.022   0.002     0.005   0.001     0.005  -0.011     0.005   0.050  -0.005   0.034  -3.2611780000   0.0111349858   1.6285020000   0.0111703491 -116.737177000   0.0609458350
