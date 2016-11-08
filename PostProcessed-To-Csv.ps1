@@ -15,8 +15,6 @@ if(Test-Path $inputFile) {
 
     Get-Content $inputFile `
         | Where-Object { $_ -match '^\s{6}Week|^\d{4}\.\d{5}' } `
-        | ForEach-Object { $_ -replace '(\d{2}) (\d{2}) (\d{2}\.\d{5})', '$1-$2-$3' } `
-        | ForEach-Object { [string]$_.TrimStart() } `
-        | ForEach-Object { $_ -replace '\s+', ',' }
+        | ForEach-Object { ($_ -replace '(\d{2}) (\d{2}) (\d{2}\.\d{5})', '$1-$2-$3').TrimStart() -replace '\s+', ',' }
 
 }
