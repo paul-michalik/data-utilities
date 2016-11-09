@@ -10,54 +10,41 @@ Param(
 )
 
 if(Test-Path $inputFile) {
-    $inputFile
-    $outputFile
-
     Get-Content $inputFile | 
-        Where-Object { $_ -match '^\s{6}Week|^\d{4}\.\d{5}' } | 
-        ForEach-Object {
-            $csv_line = ($_ -replace '(\d{2}) (\d{2}) (\d{1,2}\.\d{5})', '$1-$2-$3').TrimStart() -replace '\s+', ','
+        # Only consider lines which carry "load":  
+        Where-Object { $_ -match '^\s{6}Week|^\d{4}\.\d{5}' } |  
+        ForEach-Object { 
+            # Convert to CSV format:
+            $csv_line_org = ($_ -replace '(\d{2}) (\d{2}) (\d{1,2}\.\d{5})', '$1-$2-$3').TrimStart() -replace '\s+', ','
             
-            Write-Host "current line:"
-            Write-Host $csv_line
-            
-            $csv_line_decimal = ""
-            $csv_line_index_ranges = @(0);
-            foreach ($match in ($csv_line | Select-String -AllMatches -Pattern '(\d{2})-(\d{2})-(\d{1,2}\.\d{5})').Matches) {                
+            # Convert position data from "degree minutes seconds" to decimal degrees, the data is collected in $csv_line_new.
+            $csv_line_new = ""
+            $csv_line_back_index = 0   
+            foreach ($match in ($csv_line_org | Select-String -AllMatches -Pattern '(\d{2})-(\d{2})-(\d{1,2}\.\d{5})').Matches) {
                 if ($match -and $match.Groups.Count -eq 4) {
-                    $pos = New-Object PsCustomObject -Prop @{
-                        Raw = $match.Groups[0]
-                        Deg = [double]$match.Groups[1].Value
-                        Min = [double]$match.Groups[2].Value
-                        Sec = [double]$match.Groups[3].Value
-                    }
-                    Write-Host "Current group:" $pos.Raw.Value "range:" `
-                        $pos.Raw.Index "-" ($pos.Raw.Index + $pos.Raw.Length).ToString()
+                    $pos_raw_match = $match.Groups[0]
+                    $pos_deg = [double]$match.Groups[1].Value
+                    $pos_min = [double]$match.Groups[2].Value
+                    $pos_sec = [double]$match.Groups[3].Value
                     
-                    $csv_line_index_ranges += @($pos.Raw.Index, ($pos.Raw.Index + $pos.Raw.Length))
-
-                    $position_decimal = $pos.Deg + $pos.Min/60.0 + $pos.Sec/3600.0;
-                                                    
-                    Write-Host "position:" $pos.Deg $pos.Min $pos.Sec "->" $position_decimal
-                   
+                    $pos_decimal = $pos_deg + $pos_min/60.0 + $pos_sec/3600.0;
+                    
+                    # Add position in decimal format to current line:
+                    if ($csv_line_back_index -lt $pos_raw_match.Index) {
+                        $csv_line_new += $csv_line_org.Substring($csv_line_back_index, ($pos_raw_match.Index - $csv_line_back_index))
+                    }
+                    $csv_line_new += [string]$pos_decimal;
+                    $csv_line_back_index = ($pos_raw_match.Index + $pos_raw_match.Length)
                 }
             }
-            #add max range
-            $csv_line_index_ranges += $csv_line.Length
-            #remove duplicates
-            $csv_line_index_ranges = $csv_line_index_ranges | select -Unique
-            Write-Host $csv_line_index_ranges
-
-            for($range = 0; $range -lt ($csv_line_index_ranges.Count - 1); $range++) {
-                $index = $csv_line_index_ranges[$range]
-                $size = ($csv_line_index_ranges[($range + 1)] - $csv_line_index_ranges[$range])
-
-                Write-Host "index, size:" $index $size
-                $csv_line_decimal += $csv_line.Substring($index, $size)
-                $csv_line_decimal     
+            
+            # Add reminder of original csv, (if any) or set to original csv (if no match) :
+            if ($csv_line_back_index -lt $csv_line_org.Length) {
+                $csv_line_new += $csv_line_org.Substring($csv_line_back_index, ($csv_line_org.Length - $csv_line_back_index))
             }
-            $csv_line_decimal
+            
+            return $csv_line_new
         } | 
-        Out-File $outputFile
+        Out-File -FilePath $outputFile
 
 }
