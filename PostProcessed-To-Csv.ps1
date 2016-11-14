@@ -45,6 +45,6 @@ if(Test-Path $inputFile) {
             
             return $csv_line_new
         } | 
-        Out-File -FilePath $outputFile
+        Out-File -FilePath $outputFile -Encoding "ASCII"
 
 }
